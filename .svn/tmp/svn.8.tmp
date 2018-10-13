@@ -1,0 +1,141 @@
+Language=Language
+
+English=English
+
+SerbianLatin=Serbian Latin
+
+SerbianCyrillic=Serbian Cyrillic
+
+File = File
+
+Edit = Edit
+
+View = View
+  
+title = Service station
+
+PARENTbtnDown = Demote
+
+PARENTbtnAdd = Add
+
+PARENTbtnDelete = Delete
+
+PARENTbtnUpdate = Edit
+
+PARENTbtnSearch = Search
+
+CHILDbtnUp = Promote
+
+CHILDbtnAdd = Add
+
+CHILDbtnDelete = Delete
+
+CHILDbtnUpdate = Edit
+
+CHILDbtnSearch = Search
+
+Workspace= Workspace
+
+Drzava= State
+
+Oznaka= Mark
+
+Naziv= Name
+
+Grb= Blazon
+
+Himna= Anthem
+
+Zastava= Flag
+
+TekuceDrzavnoUredjenje= Current State Regulation
+
+PravniNaslednik= Legal Successor
+
+GlavniGrad= Capital City
+
+Opstina= Municipality
+
+AdministrativnoSediste= Administrative Headquarter
+
+MesneZajednice= Local Community
+
+KancelarijaUMestu= Local Office
+
+SastavLokala= Local Composition
+
+Naseljenomesto= Populated Area
+
+Opstineuregionu= Municipalities In Region
+
+TipRegiona= Region Type
+
+Region= Region
+
+Struktura= Structure
+
+SlozenaDrzava= Composite State
+
+DrzavaUSastavu= State Within
+
+Broj= Number
+
+Od= From
+
+Do= To
+
+PTTOznaka= Zip Code
+
+StrukturaNaselja= Community Structure
+
+SlozenoNaselje= Composite Community
+
+NaseljeDeo= Community Part
+
+Istorijauredjenja= History Regulations
+
+Drzavnouredjenje= State Regulation
+
+OdKada= From
+
+DoKada= To
+
+Tip= Type
+
+MaticnaDrzava= Home Country
+
+DrzavaSedista= State Headquarter
+
+MestoSedista= Community Headquarter
+
+StrukturaRegiona= Region Structure
+
+TipSlozenog= Composite Type
+
+OznakaSlozenog= Composite Mark
+
+TipRegionaUSastavu= Region Type Within
+
+RegionUSastavu= Region Within
+
+loginButtonOK = OK
+
+loginButtonCancel = Cancel
+
+loginPassword = Password
+
+loginUsername = Username
+
+errorDatabaseReadUsers = Datbase error read users!
+
+errorLoginUsernameAndPasswordEmpty = Username and password can't be null!
+
+errorLoginUsernameEmpty = Please enter your username!
+
+errorLoginPasswordEmpty = Please enter your password!
+
+errorLoginUsernameNotExist = Invalid username!
+
+errorLoginPasswordWrong = Incorect password!
+
+loginUser = Login user

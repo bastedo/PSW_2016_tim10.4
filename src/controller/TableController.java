@@ -1,0 +1,248 @@
+	package controller;
+
+
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import model.Column;
+import model.Node;
+import model.TableModel;
+import model.TableSchema;
+import readDB.ReadDatabase;
+import table.listener.TableSelectionListener;
+import app.MainFrame;
+import model.TableModel;
+	/**
+	 * Klasa koja sadrzi sve metode koje su potrebne za pristupanje 
+	 * {@link TableModel} tabeli
+	 * 
+	 * @author Snezana Stevanovic
+	 *
+	 */
+	public class TableController {
+		
+		public DefaultTableModel parentTableModel, childTableModel;
+		public JTable tableParent, tableChild;
+		public TableSchema tm;
+		
+		JTabbedPane tabsParent = MainFrame.getInstance().getMainTabsParent();
+		JTabbedPane tabsChildren = MainFrame.getInstance().getMainTabsChild();
+		
+		
+
+	/**
+	 * Metoda u okviru koje se kreira prikaz Parent tabele
+	 * @param table - tabela ciji se prikaz kreira
+	 */
+	public void createParentTableView(TableSchema table){
+		
+		tabsParent.removeAll();
+		tabsChildren.removeAll();
+		ReadDatabase.getInstance().Read(MainFrame.getInstance().getTabele().get(table.getCode()));
+		parentTableModel = new DefaultTableModel();
+		for (int i =0; i<table.getColumns().size(); i++){
+			Column col = table.getColumns().getColumn(i);
+			parentTableModel.addColumn(col.getName());
+		}
+		if(parentTableModel.getRowCount() > 0)
+			for(int i = 0; i < parentTableModel.getRowCount(); i++)
+				parentTableModel.removeRow(i);
+		
+		Vector<Vector<Object>> data1 = ReadDatabase.getInstance().getData();
+		for(int i = 0; i < data1.size(); i++) {
+			Vector<Object> data = data1.elementAt(i);
+			parentTableModel.addRow(data);
+		
+		}
+		
+		tableParent = new JTable(parentTableModel);
+		tableParent.setAutoCreateRowSorter(true);
+		tableParent.getTableHeader().setReorderingAllowed(false);
+		
+		JScrollPane sp = new JScrollPane(tableParent);
+		
+		
+		TableSelectionListener listener = new TableSelectionListener(tableParent);
+		tableParent.getSelectionModel().addListSelectionListener((ListSelectionListener) listener);
+		
+		
+		tabsParent.addTab(table.getName(), sp);
+		tabsParent.revalidate();
+		tabsParent.setVisible(true);
+		tabsParent.setSelectedIndex(tabsParent.getTabCount()-1);
+		
+	
+		MainFrame.getInstance().getPanelDonji().setVisible(true);
+	}
+	
+	
+	/**
+	 * Metoda koja vraca tabelu koja je selektovana u stablu
+	 * @param name - code tabele koja je selektovana
+	 * @return
+	 */
+	public TableSchema getSelectedTable(String name){
+		
+		TableSchema tm = null ;
+		for (String key: MainFrame.getInstance().getTabele().keySet()) {
+			if (MainFrame.getInstance().getTabele().get(key).getName().equals(name)) {
+				tm = MainFrame.getInstance().getTabele().get(key) ;
+			}
+		}
+		
+		return tm;
+	}
+	
+	
+	/**
+	 * Metoda koja kreira prikaz Child tabela
+	 * @param table - {@link TableSchema} tabela koja se prikazuje
+	 */
+	public void createChildTableView(TableSchema table){
+		ReadDatabase.getInstance().Read(MainFrame.getInstance().getTabele().get(table.getCode()));
+		childTableModel = new DefaultTableModel();
+		for (int i =0; i<table.getColumns().size(); i++){
+			Column col = table.getColumns().getColumn(i);
+			childTableModel.addColumn(col.getName());
+		}
+		if(childTableModel.getRowCount() > 0)
+			for(int i = 0; i < childTableModel.getRowCount(); i++)
+				childTableModel.removeRow(i);
+		
+		Vector<Vector<Object>> data1 = ReadDatabase.getInstance().getData();
+		for(int i = 0; i < data1.size(); i++) {
+			Vector<Object> data = data1.elementAt(i);
+			childTableModel.addRow(data);
+		
+		}
+		
+		tableChild = new JTable(childTableModel);
+		JScrollPane sp = new JScrollPane(tableChild);
+		TableRowSorter<DefaultTableModel> sorter =
+                new TableRowSorter<DefaultTableModel>(childTableModel);
+		tableChild.setRowSorter(sorter);
+		
+		
+		tabsChildren.addTab(table.getName(), sp);
+		tabsChildren.revalidate();
+		tabsChildren.setVisible(true);		
+
+	}
+	/**
+	 * Metoda koja za odredjenu tabelu setuje njene child tabele
+	 * @param t - {@link TableModel} tabela za koju setujemo child-ove
+	 */
+	
+	public void setChildren(TableSchema t){
+		
+		if (t.getChildren().size() != 0){
+			MainFrame.getInstance().getPanelDonji().setVisible(true);
+				for( TableSchema tmC : t.getChildren()){
+					createChildTableView(tmC);
+				}
+		}
+		
+		else {
+			MainFrame.getInstance().getPanelDonji().setVisible(false);
+		}
+		
+	}
+	/**
+	 * Metoda koja vraca NAME tabele u zavisnosti od prosledjenog CODE-a tabele
+	 * @param code - CODE tabele ciji nam naziv treba
+	 * @return {@link String} NAME tabele
+	 */
+	public String getNameByCode(String code){
+		
+		String name = "";
+		
+		if (code.equals("DRZAVA")){
+			name = "Drzava";
+		}
+		else if(code.equals("OPSTINA")){
+			name = "Opstina";
+		}
+		else if(code.equals("MESNE_ZAJEDNICE")){
+			name = "Mesne Zajednice";
+		}
+		else if(code.equals("SASTAV_LOKALA")){
+			name = "Sastav Lokala";
+		}
+		else if(code.equals("OPSTINE_U_REGIONU")){
+			name = "Opstine u regionu";
+		}
+		else if(code.equals("STRUKTURA")){
+			name = "Struktura";
+		}
+		else if(code.equals("NASELJENO_MESTO")){
+			name = "Naseljeno mesto";
+		}
+		else if(code.equals("STRUKTURA_NASELJA")){
+			name = "Struktura naselja";
+		}
+		else if(code.equals("ISTORIJA_UREDJENJA")){
+			name = "Istorija uredjenja";
+		}
+		else if(code.equals("TIP_REGIONA")){
+			name = "Tip Regiona";
+		}
+		else if(code.equals("REGION")){
+			name = "Region";
+		}
+		else if(code.equals("STRUKTURA_REGIONA")){
+			name = "Struktura regiona";
+		}
+		else if(code.equals("OPSTINE_U_REGION")){
+			name = "Opstine u regionu";
+		}
+		else if(code.equals("DRZAVNO_UREDJENJE")){
+			name = "Drzavno uredjenje";
+		}
+		
+		return name;
+	}
+	
+	
+	public TableModel addData(TableSchema ts) {
+		TableModel tableModel = getTableModel(ts);
+		
+		if(tableModel.getRowCount() > 0)
+			for(int i = 0; i < tableModel.getRowCount(); i++)
+				tableModel.removeRow(i);
+		
+		Vector<Vector<Object>> data1 = ReadDatabase.getInstance().getData();
+		
+		for(int i = 0; i < data1.size(); i++) {
+			Vector<Object> data = data1.elementAt(i);
+			tableModel.addRow(data);
+		
+		}
+		return tableModel;
+	}
+	
+	public TableModel getTableModel(TableSchema tc) {
+		TableModel tableModel = new TableModel() {
+		      public boolean isCellEditable(int rowIndex, int mColIndex) {
+		        return false;
+		      }
+		    };
+		    
+		Iterator it = tc.getColumns().getIterator();
+		while(it.hasNext()) {
+				Column c = (Column)it.next();
+				tableModel.addColumn(c.getName());
+			}
+
+		return tableModel;
+	}
+}
+
+
+

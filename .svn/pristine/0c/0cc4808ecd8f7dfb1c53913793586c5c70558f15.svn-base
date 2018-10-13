@@ -1,0 +1,72 @@
+package table.listener;
+
+import java.awt.Component;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import app.MainFrame;
+import model.TableModel;
+
+
+
+
+/**
+ * Implementacija {@link ListSelectionListener} interfejsa.
+ * 
+ * @author Boris Bogojevic
+ *
+ */
+public class TableSelectionListener implements ListSelectionListener {
+	private JTable table;
+	
+	public TableSelectionListener(JTable table) {
+		this.setTable(table);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		int i = MainFrame.getInstance().getMainTabsParent().getComponentCount();
+		JScrollPane scrollPane = (JScrollPane)MainFrame.getInstance().getMainTabsParent().getComponent(0);
+		JViewport view = scrollPane.getViewport();
+        Component[] components =view.getComponents();
+        for (int i1 = 0; i1 < components.length; i1++) {
+            if (components[i1] instanceof JTable) {
+                System.out.println("Hehehehr here is heídden that JTable");
+                JTable jt = (JTable)components[i1];
+                DefaultTableModel tm = (DefaultTableModel) jt.getModel();
+                int i3 = jt.getSelectedRow();
+                System.out.println(tm.getDataVector().elementAt(i3));
+               
+                
+            }
+        }
+		
+		System.out.println("promena"+i);
+		
+	}
+
+	/**
+	 * @return the table
+	 */
+	public JTable getTable() {
+		return table;
+	}
+
+	/**
+	 * @param table the table to set
+	 */
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+	
+
+
+
+}

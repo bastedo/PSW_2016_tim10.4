@@ -1,0 +1,120 @@
+package tree;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.TreePath;
+
+import controller.JsonParser;
+import controller.TableController;
+import model.Node;
+import model.TableSchema;
+import readDB.ReadDatabase;
+import app.MainFrame;
+
+/**
+ * Klasa u okviru koje se realizuju akcije koje se izvrsavaju
+ * prilikom klika na cvor stabla
+ * 
+ * @author Snezana Stevanovic
+ *
+ */
+public class TreeMouseListener implements MouseListener{
+	
+	DefaultTableModel parentTableModel,childTableModel;
+	JTable tableParent,tableChild;
+	TableSchema tmP,tmC;
+	TableController tc;
+	
+	
+	@SuppressWarnings("static-access")
+	public void mouseClicked(MouseEvent e){
+		
+		TreePath selPath = MainFrame.getInstance().getTree().getPathForLocation(e.getX(), e.getY());
+
+
+		MainFrame.getInstance().readAllTables ();
+
+		if(selPath != null){
+			if(e.getClickCount()==2 && e.getButton() == e.BUTTON1){
+			    
+			    //System.out.println(ReadDatabase.getInstance().getData().toString());
+				Node node = (Node) selPath.getLastPathComponent();
+				String name = node.getName().toString();
+				
+				System.out.println(name);
+				 TableSchema ada = MainFrame.getInstance().getTabele().get(name);
+				ada.getReferences();
+			//Disable-ovanje dugmadi
+				if (MainFrame.getInstance().getTabele().get(name).getReferences().size() != 0 ){
+					MainFrame.getInstance().getAction().getDemote().setEnabled(true);
+					MainFrame.getInstance().getAction().getAddRowTrue().setEnabled(true);
+					MainFrame.getInstance().getAction().getAddRowFalse().setEnabled(true);
+					MainFrame.getInstance().getAction().getDeleteRowTrue().setEnabled(true);
+					MainFrame.getInstance().getAction().getDeleteRowFalse().setEnabled(true);
+					MainFrame.getInstance().getAction().getEditRow().setEnabled(true);
+					MainFrame.getInstance().getAction().getSearch().setEnabled(true);
+					}
+				else{
+					MainFrame.getInstance().getAction().getDemote().setEnabled(false);
+					MainFrame.getInstance().getAction().getPromote().setEnabled(true);
+					MainFrame.getInstance().getAction().getAddRowTrue().setEnabled(true);
+					MainFrame.getInstance().getAction().getAddRowFalse().setEnabled(true);
+					MainFrame.getInstance().getAction().getDeleteRowTrue().setEnabled(true);
+					MainFrame.getInstance().getAction().getDeleteRowFalse().setEnabled(true);
+					MainFrame.getInstance().getAction().getEditRow().setEnabled(true);
+					MainFrame.getInstance().getAction().getSearch().setEnabled(true);
+				}
+			//zabrana prikazivanja Workspace-a kao tabele
+				if (node.getType().equals("workspace")){
+					return;
+				}
+				
+				tc = new TableController();
+				
+			//prikaz Parent tabela
+				tmP = tc.getSelectedTable(name);
+				tc.createParentTableView(tmP);
+				
+			
+			//prikaz Child tabela
+				tc.setChildren(tmP);
+				MainFrame.getInstance().getSplit2().resetToPreferredSizes();
+				MainFrame.getInstance().getSplit2().setResizeWeight(1.0);
+				MainFrame.getInstance().getSplit2().setDividerLocation(250);
+				MainFrame.getInstance().getPanel().validate();
+				MainFrame.getInstance().repaint();
+			
+				
+		}
+	}
+}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

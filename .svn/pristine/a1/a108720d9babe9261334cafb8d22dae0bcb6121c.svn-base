@@ -1,0 +1,15 @@
+package validation;
+
+public class Validation {
+
+	public static boolean isNumeric(String number) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean isInt(String number) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

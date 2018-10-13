@@ -1,0 +1,145 @@
+package forms;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import model.Column;
+import model.Columns;
+import model.TableSchema;
+import app.MainFrame;
+
+/**
+ * Klasa koja omogucuje iscrtavanje forme za dodavanje sloga.
+ * @author Snezana
+ *
+ */
+@SuppressWarnings("serial")
+public class AddRowForm extends JPanel {
+
+	
+	/**
+	 * Polje koje nam govori da li dodajemo slog u parent ili child tabelu.
+	 */
+	private boolean isParent;
+	/**
+	 * Tabela u koju dodajemo slog.
+	 */
+	private TableSchema table;
+	/**
+	 * Atribut koji predstavlja instancu AddRowDialog-a.
+	 */
+	private AddRowDialog dialog = null;
+	
+	/**
+	 * Konstruktor.
+	 * @param isParent oznacava da li se otvara forma za dodavanje parent ili child sloga.
+	 * @param dialog instanca AddRowDialog klase
+	 */
+	public AddRowForm(boolean isParent,AddRowDialog dialog) {
+		
+		this.isParent = isParent;
+		this.dialog = dialog; 
+		
+	if (isParent){
+		int tabIndex = MainFrame.getInstance().getMainTabsParent().getSelectedIndex();
+		String tableName = MainFrame.getInstance().getMainTabsParent().getTitleAt(tabIndex);
+		table = MainFrame.getInstance().getTabelebyName(tableName);
+	}
+	else{
+		int tabIndex = MainFrame.getInstance().getMainTabsChild().getSelectedIndex();
+		String tableName = MainFrame.getInstance().getMainTabsChild().getTitleAt(tabIndex);
+		table = MainFrame.getInstance().getTabelebyName(tableName);
+	}
+	
+	generatePanel(table);
+	}
+	
+	/**
+	 * Metoda koja iscrtava odgovarajuca polja za dodavanje.
+	 * @param table predstavlja tabelu u koju dodajemo slog.
+	 */
+	public void generatePanel(TableSchema table) {
+		
+		JPanel panel = new JPanel();
+		Columns columns = table.getColumns();
+		
+		panel.setLayout(new GridBagLayout());
+		setSize(80, 90);
+		for(int i = 0; i < columns.size(); i++) {
+			
+			Column column = columns.getColumn(i);
+			
+			JLabel label = new JLabel(column.getCode());
+			GridBagConstraints gbcLabel = new GridBagConstraints();
+			gbcLabel.gridx = 0;
+			gbcLabel.gridy = 0 + i;
+			gbcLabel.fill = GridBagConstraints.HORIZONTAL;
+			gbcLabel.anchor = GridBagConstraints.WEST;
+			gbcLabel.insets = new Insets(2,2,2,2);
+			panel.add(label, gbcLabel);
+			
+			JTextField field;
+			GridBagConstraints gbcField = new GridBagConstraints();
+			gbcField.gridx = 1;
+			gbcField.gridy = 0 + i;
+			gbcField.ipadx = 100;
+			gbcField.fill = GridBagConstraints.HORIZONTAL;
+			gbcField.insets = new Insets(2,2,2,2);
+			
+			if(column.getColumnType().equals("datetime")) {
+				
+//				JDateChooser date = new JDateChooser();
+//				
+//				JTextFieldDateEditor editor = (JTextFieldDateEditor)date.getDateEditor();
+//				editor.setEditable(false);
+//				
+//				date.setName(column.getCode());
+//				date.setLocale(MainFrame.getInstance().getResourceBundle().getLocale());
+//				date.addKeyListener(new OkAddRowListener(table, isParent, this, dialog ));
+//				panel.add(date, gbcField);
+			}
+			else if(column.getColumnType().equals("bit")) {
+				JCheckBox checkBox = new JCheckBox();
+				checkBox.setName(column.getCode());
+		//		checkBox.addKeyListener(new OkAddRowListener(table, isParent, this, dialog));
+				panel.add(checkBox, gbcField);
+			}
+			else {
+				field = new JTextField("");
+				field.setName(column.getCode());
+							for(int j = 0; j < table.getColumns().size(); j++)
+								if(column.getCode().contains(table.getColumns().getColumn(j).getCode())) {
+									field.setEditable(true);
+						}
+				
+				panel.add(field, gbcField);
+			}
+			
+			JLabel validationLabel = new JLabel();
+			validationLabel.setName(column.getCode());
+			GridBagConstraints gbcVal = new GridBagConstraints();
+			gbcVal.gridx = 2;
+			gbcVal.gridy = 0 + i;
+			gbcVal.fill = GridBagConstraints.HORIZONTAL;
+			gbcVal.insets = new Insets(2,2,2,2);
+			panel.add(validationLabel, gbcVal);
+			
+		}
+		add(panel);
+	}
+
+	public TableSchema getTable() {
+		return table;
+	}
+
+	public void setTable(TableSchema table) {
+		this.table = table;
+	}
+}
