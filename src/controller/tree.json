@@ -1,0 +1,669 @@
+{
+	"name" : "Workspace",
+	"code" : "workspace",
+	"type" : "workspace",
+	"children" : [
+				{
+				  "code":"DRZAVA",
+				  "name":"Drzava",
+				  "type":"tabela",
+				  "reference": [],
+                                  "columns": [
+                                       {
+                                       "name" : "Oznaka",
+                                       "code" : "DR_OZNAKA",
+                                       "columnType": "char",
+                                       "typeLength": "3",
+                                       "isnullable": "false"
+                                       },
+                                       {
+                                        "name" : "Naziv",
+                                        "code" : "DR_NAZIV",
+                                        "columnType" : "varchar",
+                                        "typeLength": "120",
+                                        "isnullable": "false"
+                                       },
+                                       { 
+                                        "name" : "Grb",
+                                        "code" : "DR_GRB",
+                                        "columnType": "image",
+                                        "isnullable": "true" 
+                                       },
+                                       {
+                                        "name" : "Himna",
+                                        "code" : "DR_HIMNA",
+                                        "columnType": "image",
+                                         "isnullable": "true"
+                                       },
+                                       {
+                                        "name" : "Zastava",
+                                        "code" : "DR_ZASTAVA",
+                                        "columnType": "image",
+                                         "isnullable": "true"
+                                       },
+                                       {
+							  			"name": "Tekuce Drzavno uredjenje",
+							  			"code": "DUR_OZNAKA",
+							  			"columnType": "char",
+							  			"typeLength": "1",
+							  			 "isnullable": "true"
+							  		   },
+							  		   {
+							  			"name": "Pravni naslednik",
+							  			"code": "DRZ_DR_OZNAKA",
+							  			"columnType": "char",
+							  			"typeLength": "3",
+							  			 "isnullable": "true"
+							  			},
+							  			{
+							  			"name": "Glavni Grad",
+							  			"code": "NM_OZNAKA",
+							  			"columnType": "int",
+							  			 "isnullable": "true"
+							  			}
+                                             ],
+				  "icon":"",
+				  "children": [
+				  				{
+
+							  		"code": "OPSTINA",
+							  		"name": "Opstina",
+							  		"icon": "",
+							  		"type": "tabela",
+							  		"reference": [{ "refCode" : "DRZAVA"}],
+							  		"columns":[
+							  			{
+							  			"name": "Drzava",
+							  			"code": "DR_OZNAKA",
+							  			"columnType": "char",
+							  			"typeLength": "3",
+							  			 "isnullable": "false"
+							  			},
+							  			{
+							  			"name": "Oznaka",
+							  			"code": "OP_OZNAKA",
+							  	        "columnType": "char",
+							  	        "typeLength": "3",
+							  	        "isnullable": "false"
+							  			},
+							  			{
+							  			"name": "Naziv",
+							  			"code": "OP_NAZIV",
+							  			"columnType": "varchar",
+							  			"typeLength": "60",
+							  			"isnullable": "false"
+							  			},
+							  			{
+							  			"name": "Administrativno sediste",
+							  			"code": "NM_OZNAKA",
+							  		    "columnType": "int",
+							  		    "isnullable": "true"
+							  			}
+							  		
+							  		
+							  		
+							  		],
+							  		"children": [
+							  						{
+											  			"code": "MESNE_ZAJEDNICE",
+											  			"name": "Mesne Zajednice",
+											  			"icon": "",
+											  			"type": "tabela",
+											  			"reference": [{"refCode": "OPSTINA"}],
+											  			
+											  			"columns":[
+											  				{
+							  								"name": "Drzava",
+							  								"code": "DR_OZNAKA",
+							  							    "columnType": "char",
+							  							    "typeLength": "3",
+							  							    "isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Opstina",
+							  								"code": "OP_OPSTINA",
+							  								"columnType": "char",
+							  								"typeLength": "3",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Oznaka",
+							  								"code": "MZ_OZNAKA",
+							  								"columnType": "numeric",
+							  								"typeLength": "2,0",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Naziv",
+							  								"code": "MZ_OZNAKA",
+							  								"columnType": "varchar",
+							  								"typeLength": "120",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Kancelarija u mestu",
+							  								"code": "NM_OZNAKA",
+							  								"columnType": "int",
+							  								"isnullable": "true"
+							  								}
+											  			
+											  			],
+											  			"children":[]
+  													},
+  													{
+											  			"code": "SASTAV_LOKALA",
+											  			"name": "Sastav Lokala",
+											  			"icon": "",
+											  			"type": "tabela",
+											  			"reference": [
+{"refCode" : "NASELJENO_MESTO"},
+{"refCode":"OPSTINA"}],
+											  			
+											  			"columns": [
+											  				{
+							  								"name": "Drzava",
+							  								"code": "DR_OZNAKA",
+							  								"columnType": "char",
+							  								"typeLength": "3",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Opstina",
+							  								"code": "OP_OZNAKA",
+							  								"columnType": "char",
+							  								"typeLength": "3",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Naseljeno mesto",
+							  								"code": "NM_OZNAKA",
+							  								"columnType": "int",
+							  								"isnullable": "false"
+							  								
+							  								}
+											  			
+											  			
+											  			],
+											  			"children": []
+
+
+  													},
+  													{
+											  			"code": "OPSTINE_U_REGIONU",
+											  			"name": "Opstine u regionu",
+											  			"icon": "",
+											  			"type": "tabela",
+											  			"reference": [
+{"refCode": "OPSTINA"}, 
+{"refCode" :"REGION"}],
+											  			"columns": [
+											  				{
+							  								"name": "Tip regiona",
+							  								"code": "TR_OZNAKA",
+							  								"columnType": "char",
+							  								"typeLength": "1",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Region",
+							  								"code": "REG_OZNAKA",
+							  								"columnType": "numeric",
+							  								"typeLength": "4,0",
+							  								"isnullable": "false"
+							  								},
+							  								{
+							  								"name": "Drzava",
+							  								"code": "DR_OZNAKA",
+							  								"columnType": "char",
+							  								"typeLength": "3",
+							  								"isnullable": "false"
+							  							
+							  								},
+							  								{
+							  								"name": "Opstina",
+							  								"code": "OP_OZNAKA",
+							  								"columnType": "char",
+							  								"typeLength": "3",
+							  								"isnullable": "false"
+							  								}
+											  			
+											  			
+											  			
+											  			],
+											  			"children": []
+
+  													}
+
+  												]
+  								},
+  								{
+							  		"code": "STRUKTURA",
+							  		"name": "Struktura",
+							  		"icon": "",
+							  		"type": "tabela",
+							  		"reference": [{"refCode": "DRZAVA"}],
+							  		"columns":[
+							  			{
+							  				"name": "Slozena drzava",
+							  				"code": "DRZ_DR_OZN",
+							  				"columnType": "char",
+							  				"typeLength": "3",
+							  				"isnullable": "false"
+							  			},
+						  				{
+			  								"name": "Drzava u sastavu",
+											"code": "DR_OZNAKA",
+											"columnType": "char",
+											"typeLength": "3",
+											"isnullable": "false"
+							  			},
+						  				{
+			  								"name": "Broj",
+											"code": "DS_BROJ",
+											"columnType": "numeric",
+											"typeLength": "2,0",
+											"isnullable": "false"
+							  			},
+							  			{
+			  								"name": "Od",
+											"code": "DS_OD",
+											"columnType": "datetime",
+											"isnullable": "true"
+							  			},
+							  			{
+			  								"name": "Do",
+											"code": "DS_DO",
+											"columnType": "datetime",
+											"isnullable": "true"
+							  			}
+	
+							  		
+							  		
+							  		],
+							  		"children": []
+								},	
+								{
+				 					 "code":"NASELJENO_MESTO",
+								     "name":"Naseljeno mesto",
+				  					 "type":"tabela",
+				  					 "icon":"",
+				  					 "reference": [{ "refCode" :"DRZAVA"}],
+				  					 "columns":[
+				  
+				  					{
+				  
+				  						"name": "Drzava",
+										"code": "DR_OZNAKA",
+										"columnType": "char",
+										"typeLength": "3",
+										"isnullable": "false"
+		  							},
+		  							{
+				  
+								  		"name": "Oznaka",
+										"code": "NM_OZNAKA",
+										"columnType": "int",
+										"isnullable": "false"
+						  			},
+						  			{
+								  
+								  		"name": "Naziv",
+										"code": "NM_NAZIV",
+										"columnType": "varchar",
+										"typeLength": "3",
+										"isnullable": "false"
+						  			},
+						  			{
+								  
+								  		"name": "PTT oznaka",
+										"code": "NM_PTT_OZN",
+										"columnType": "char",
+										"typeLength": "12",
+										"isnullable": "true"
+						  			}
+				  
+				  
+									  ],
+									  "children": [
+					  								{
+												
+														"code": "SASTAV_LOKALA",
+												  		"name": "Sastav Lokala",
+												  		"icon": "",
+												  		"type": "tabela",
+												  		"reference": [
+{"refCode" :"NASELJENO_MESTO"},
+{"refCode" : "OPSTINA"}],
+												  		"columns": [
+												  			{
+									  
+									  							"name": "Drzava",
+																"code": "DR_OZNAKA",
+																"columnType": "char",
+																"typeLength": "3",
+																"isnullable": "false"
+							  								},
+							  								{
+									  
+									  							"name": "Opstina",
+																"code": "OP_OZNAKA",
+																"columnType": "char",
+																"typeLength": "3",
+																"isnullable": "false"
+							  								},
+							  								{
+									  
+									  							"name": "Naseljeno mesto",
+																"code": "NM_OZNAKA",
+																"columnType": "int",
+																"isnullable": "false"
+							  								}
+												  		
+												  		],
+												  		"children": []
+
+
+  								},
+  								{
+									"code": "STRUKTURA_NASELJA",
+							  		"name": "Struktura naselja",
+							  		"icon": "",
+							  		"type": "tabela",
+							  		"reference": [{"refCode" : "NASELJENO_MESTO"}],
+							  		"columns":[
+							  			{
+				  							"name": "Drzava",
+											"code": "DR_OZNAKA",
+											"columnType": "char",
+											"typeLength": "3",
+											"isnullable": "false"
+		  								},
+		  								{
+				  							"name": "Slozeno naselje",
+											"code": "NM_OZNAKA",
+											"columnType": "int",
+											"isnullable": "false"
+		  								},
+		  								{
+				  							"name": "Naselje deo",
+											"code": "NAS_NM_OZN",
+											"columnType": "int",
+											"isnullable": "false"
+		  								}
+							  		
+							  		
+							  		],
+							  		"children": []
+
+  								}
+
+
+  							   ]
+
+				},
+
+								{
+									"code": "ISTORIJA_UREDJENJA",
+							  		"name": "Istorija uredjenja",
+							  		"icon": "",
+							  		"type": "tabela",
+							  		"reference": [
+{"refCode":"DRZAVA"}],
+							  		"columns": [
+							  			{
+			  								"name": "Drzava u sastavu",
+											"code": "DR_OZNAKA",
+											"columnType": "char",
+											"typeLength": "3",
+											"isnullable": "false"
+							  			},
+							  			{
+			  								"name": "Broj",
+											"code": "URE_BROJ",
+											"columnType": "numeric",
+											"typeLength": "2",
+											"isnullable": "false"
+							  			},
+							  			{
+			  								"name": "Drzavno uredjenje",
+											"code": "DUR_OZNAKA",
+											"columnType": "char",
+											"typeLength": "1",
+											"isnullable": "false"
+							  			},
+							  			{
+			  								"name": "Od kada",
+											"code": "URE_OD_KAD",
+											"columnType": "datetime",
+												"isnullable": "false"
+							  			},
+							  			{
+			  								"name": "Do kada",
+											"code": "URE_DO_KAD",
+											"columnType": "datetime",
+												"isnullable": "true"
+							  			}
+							  		
+							  		
+							  		
+							  		
+							  		],
+							  		"children":[]
+
+								}
+
+  							]
+
+				},
+			
+				{
+				  "code":"TIP_REGIONA",
+				  "name":"Tip Regiona",
+				  "type":"tabela",
+				  "reference" : [],
+				  "icon":"",
+				  "columns":[
+				  		{
+				  			"name": "Oznaka",
+							"code": "TR_OZNAKA",
+							"columnType": "char",
+							"typeLength": "3",
+							"isnullable": "false"
+		  				},
+		  				{
+				  			"name": "Naziv",
+							"code": "TR_NAZIV",
+							"columnType": "varchar",
+							"typeLength": "30",
+							"isnullable": "false"
+		  				}
+				  
+				  
+				  ],
+				  "children": [
+  								{
+
+									"code": "REGION",
+							  		"name": "Region",
+							  		"icon": "",
+							  		"type": "tabela",
+							  		"reference": [
+{ "refCode":
+"TIP_REGIONA"}],
+							  		"columns": [
+							  			{
+				  							"name": "Tip",
+											"code": "TP_OZNAKA",
+											"columnType": "char",
+											"typeLength": "1",
+											"isnullable": "false"
+		  								},
+		  								{
+				  							"name": "Oznaka",
+											"code": "REG_OZNAKA",
+											"columnType": "numeric",
+											"typeLength": "4,0",
+											"isnullable": "false"
+		  								},
+		  								{
+				  							"name": "Naziv",
+											"code": "REG_NAZIV",
+											"columnType": "varchar",
+											"typeLength": "80",
+											"isnullable": "false"
+		  								},
+		  								{
+				  							"name": "Maticna drzava",
+											"code": "DR_OZNAKA",
+											"columnType": "char",
+											"typeLength": "3",	
+											"isnullable": "true"
+		  								},
+		  								{
+				  							"name": "Drzava sedista",
+											"code": "NAS_DR_OZN",
+											"columnType": "char",
+											"typeLength": "3",
+											"isnullable": "true"
+		  								},
+		  								{
+				  							"name": "Mesto sedista",
+											"code": "NM_OZNAKA",
+											"columnType": "int",
+												"isnullable": "true"
+		  								}
+				 
+							  		],
+							  		"children": [
+							  						{
+											  			"code":"STRUKTURA_REGIONA",
+											  			"name":"Struktura regiona",
+											  			"type":"tabela",
+											  			"icon":"",
+											  			"reference": [
+{"refCode":"TIP_REGIONA"}],
+											  			"columns":[
+											  			{
+				  											"name": "Tip slozenog",
+															"code": "REG_TR_OZN",
+															"columnType": "char",
+															"typeLength": "1",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Oznaka Slozenog",
+															"code": "REG_REG_OZ",
+															"columnType": "numeric",
+															"typeLength": "4,0",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Tip regiona u sastavu",
+															"code": "TR_OZNAKA",
+															"columnType": "char",
+															"typeLength": "1",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Region u sastavu",
+															"code": "REG_OZNAKA",
+															"columnType": "numeric",
+															"typeLength": "4,0",
+															"isnullable": "false"
+		  												}
+											  	
+											  			],
+											  			"children":[]
+
+  													},
+  													{
+  														"code":"OPSTINE_U_REGIONU",
+											  			"name":"Opstine u regionu",
+											  			"type":"tabela",
+											  			"icon":"",
+											  			"reference": [
+ {"refCode": "OPSTINA"},
+ {"refCode": "REGION"}
+],
+											  			"columns": [
+											  			{
+				  											"name": "Tip regiona",
+															"code": "TR_OZNAKA",
+															"columnType": "char",
+															"typeLength": "1",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Region",
+															"code": "REG_OZNAKA",
+															"columnType": "numeric",
+															"typeLength": "4,0",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Drzava",
+															"code": "DR_OZNAKA",
+															"columnType": "char",
+															"typeLength": "3",
+															"isnullable": "false"
+		  												},
+		  												{
+				  											"name": "Opstina",
+															"code": "OP_OZNAKA",
+															"columnType": "char",
+															"typeLength": "3",
+															"isnullable": "false"
+		  												}
+											  			
+											  			
+											  			
+											  			
+											  			
+											  			
+											  			
+											  			],
+											  			"children":[]
+  													
+  													
+  													}
+  												]		
+
+
+  								}
+  							  ]
+
+					},
+					{
+						"code":"DRZAVNO_UREDJENJE",
+						"name":"Drzavno uredjenje",
+						"type": "tabela",
+						"reference": [],
+						"icon": [],
+						"columns": [
+								{
+									"name": "Oznaka",
+									"code": "DUR_OZNAKA",
+									"columnType": "char",
+									"typeLength": "1",
+									"isnullable": "false"
+								
+								
+								},
+								{
+									"name": "Naziv",
+									"code": "DUR_NAZIV",
+									"columnType": "varchar",
+									"typeLength": "40",
+									"isnullable": "false"
+								
+								
+								}
+								],
+						"children": []
+						
+					
+					
+					
+					}
+				]
+}
