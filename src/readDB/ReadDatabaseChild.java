@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package readDB;
 
 import java.sql.Connection;
@@ -182,3 +183,189 @@ public class ReadDatabaseChild {
 	}
 
 }
+=======
+package readDB;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import app.MainFrame;
+import connection.DBConnection;
+import model.TableSchema;
+
+/**
+ * Klasa koja u sebi sadrzi metodu,koja omogucava iscitavanje iz baze na osnovu 
+ * proslednjenih parametara,i smesta objekte u vektor podataka.
+ * @author Boris Bogojevic
+ *
+ */
+public class ReadDatabaseChild {
+	/**
+	 * Atribut koji predstavlja instancu klase {@code ReadDatabase}
+	 */
+	public static ReadDatabaseChild instance;
+	/**
+	 * Atribut koji predstavlja {@code Vector} koji nam sluzi sa smestanje podataka 
+	 * koje ucitamo iz baze 
+	 */
+	private Vector<Vector<Object>> data;
+	/**
+	 * Konstruktor unutar kog se vrsi inicijalizacija 
+	 */
+	public ReadDatabaseChild() {
+		data = new Vector<Vector<Object>>();
+	}
+	
+	/**
+	 * Metoda koja vraca instancu klase
+	 * @return {@code ReadDatabaseChild} koja predstavlja instancu klase
+	 */	
+	public static ReadDatabaseChild getInstance() {     
+	
+		if(instance == null) {                      
+			instance = new ReadDatabaseChild();       
+		}
+	
+		return instance;             
+	}
+	/**
+	 * Geter metoda
+	 * @return {@code Vector} podataka koji su ucitani iz baze
+	 */
+	public Vector<Vector<Object>> getData() {
+		return data;
+	}
+
+	/**
+	 * Metoda koja kao parametre prima selektovani cvor,listu kolona i njihove vrednosti po kojima vrsi selekciju iz baze
+	 * @param tableSchema - selektovana tabela
+
+	 * @param tableSchema selektovani cvor iz stabla
+
+	 * @param list lista vrednosti i kolona po kojima se vrsi pretrazivanje
+	 */
+	public void Read(TableSchema tableSchema, ArrayList<DatabaseColumn> list)  {
+		
+		Connection conn = DBConnection.getInstance().getConnection();
+		data = new Vector<Vector<Object>>();
+		
+		try {
+			Statement stm = conn.createStatement();
+			StringBuffer sqlStatement = new StringBuffer();
+			sqlStatement.append("SELECT * FROM " + tableSchema.getCode() + " WHERE ");
+			
+			for(int i=0; i<list.size();i++) {
+				if(list.get(i).getTypeColumn().equals("char")) {
+					sqlStatement.append(list.get(i).getCodeColumn() + "=\'" + list.get(i).getValueColumn() + "\'" );
+					if(i + 1 != list.size()) {
+						sqlStatement.append(" AND ");
+					}
+					else {
+						sqlStatement.append(";");
+					}
+				}
+				else {
+					sqlStatement.append(list.get(i).getCodeColumn() + "=" + list.get(i).getValueColumn());
+					if(i + 1 != list.size()) {
+						sqlStatement.append(" AND ");
+					}
+					else {
+						sqlStatement.append(";");
+					}
+				}
+			}
+			
+			ResultSet res = stm.executeQuery(sqlStatement.toString());
+			
+			
+			while (res.next()) {
+				Vector<Object> record = new Vector<Object>();
+					for(int i=0;i<tableSchema.getColumns().size();i++) {
+						if(tableSchema.getColumns().getColumn(i).getTypeC().equals("datetime")){
+							if(	res.getObject(i+1)!=null){
+								String obj = res.getObject(i+1).toString().split(" ")[0];
+							    String[] string = obj.split("-");
+							    String god = string[0];
+							    String dan = string[2];
+							    String mesec = string[1];
+								record.add(dan + "-" + mesec + "-" + god);
+							} else {
+								record.add("");
+							}
+						} else {
+							record.add(res.getObject(i+1));	
+						}
+					}
+					data.add(record);
+			}
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(new JFrame(),MainFrame.getInstance().getResourceBundle().getString("errorDatabaseRead"));
+		}
+	}
+	
+	/**
+	 * Metoda koja kao parametre prima selektovana tabela,listu kolona i njihove vrednosti po kojima vrsi brisanje.
+	 * @param tableSchema selektovana tabela
+	 * @param tableSchema sema tabele
+	 * @param col lista vrednosti i kolona po kojima se vrsi pretrazivanje
+	 */
+	
+	public void DeleteFromDatabase(TableSchema tableSchema, ArrayList<DatabaseColumn> col) {
+		
+		Connection conn = DBConnection.getInstance().getConnection();
+		data = new Vector<Vector<Object>>();
+		
+		try {
+			Statement stm = conn.createStatement();
+			StringBuffer sqlStatement = new StringBuffer();
+			sqlStatement.append("DELETE FROM " + tableSchema.getCode() + " WHERE ");
+			
+			for(int i=0; i<col.size();i++) {
+				if(col.get(i).getTypeColumn().equals("char") || col.get(i).getTypeColumn().equals("varchar") || col.get(i).getTypeColumn().equals("datetime") ) {
+					sqlStatement.append(col.get(i).getCodeColumn() + "=\'" + col.get(i).getValueColumn() + "\'" );
+					if(i + 1 != col.size()) {
+						sqlStatement.append(" AND ");
+					}
+					else {
+						sqlStatement.append(";");
+					}
+				}
+				else {
+					sqlStatement.append(col.get(i).getCodeColumn() + "=" + col.get(i).getValueColumn());
+					if(i + 1 != col.size()) {
+						sqlStatement.append(" AND ");
+					}
+					else {
+						sqlStatement.append(";");
+					}
+				}
+			}
+			System.out.println(sqlStatement.toString());
+			stm.execute(sqlStatement.toString());
+			
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			String stringerror; 
+			
+			if(e.getMessage().contains("FOREIGN KEY")){
+				stringerror = "errorForeignKey";
+			} else if (e.getMessage().contains("PRIMARY KEY")){
+				stringerror = "errorPrimaryKey";
+			}else if (e.getMessage().contains(" REFERENCE constraint")){
+				stringerror = "errorDelete";
+			} else {
+				stringerror = "errorDatabaseRead";
+			}
+			JOptionPane.showMessageDialog(new JFrame(),MainFrame.getInstance().getResourceBundle().getString(stringerror));
+		}
+		
+	}
+
+}
+>>>>>>> origin/master
